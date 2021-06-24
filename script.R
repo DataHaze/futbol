@@ -1,8 +1,8 @@
-# dat = todos los paises local y visitante
-# r1 = los promedios de todos los paises de local y vistante
-# local_2, visit_2 = promedios de dos equipos de todos los paises, local y visitante
-# visit country_a = apertura
-# visit country_b = clausura
+# dat = Results for ALL countries, home and away
+# r1 = Mean results for home and away, for ALL countries
+# local_2, visit_2 = mean for only two teams for each country, home and away. 
+# visit country_a = First semester (only in Latin America)
+# visit country_b = Second semester (only in Latin America)
 #  agregar temporada 2020/21 a los sudamericanos
 #  agregar temorara 14/15 en europeos
 
@@ -32,8 +32,10 @@ table_maker<-function(url){
   return (tab)
 }
 
-# Argentina----------------------------------------------------------------------------
+# So, I start passing all the websites containing the results I want through my function, "table_maker". This may look cumbersome, but It's a preety
+# straight forward process once you get used to Its gramatic. 
 
+# Argentina----------------------------------------------------------------------------
 #argentina 2021/22
 url_local_ar21<-'http://www.universofutbol.com.ar/plantillas/archivos/posicioneslocal.php?div=1&camp=1465'
 url_visit_ar21<-'http://www.universofutbol.com.ar/plantillas/archivos/posicionesvisitante.php?div=1&camp=1465'
@@ -105,8 +107,6 @@ visit_ar14<-bind_rows(visit_ar14_a, visit_ar14_b) %>%
   arrange(desc(PTS))
 
 visit_ar14<-visit_ar14[duplicated(visit_ar14$Equipo),]
-
-
 
 # Brasil------------------------------------------------------
 
@@ -1022,22 +1022,9 @@ dat<-local_ar20 %>%
   bind_rows(visit_bl14 %>% mutate(Cond = 'visit', Year = 2015, Pais = 'Belgica'))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# Dos equipos por pais ----------------------
-#Elijo los dos equipos de cada pais, el primero y uno en el medio de la tabla.
-# Saco el promedio de las victorias y empates de local y visitante por todos
-# los anos menos 2020.
+# Two teams by Country ----------------------
+# I choose two teams, the first historic team, and the median one. 
+#  Then I choose 
 
 ing<-dat %>% filter(Pais == 'Inglaterra') %>% 
   group_by(Equipo) %>%
@@ -1077,7 +1064,7 @@ por<-dat %>% filter(Pais == 'Portugal') %>%
   arrange(desc(PTS))
 median(por$PTS)
 # intersect(local_po$Equipo,c(local_po15$Equipo,local_po16$Equipo,local_po17$Equipo,local_po18$Equipo))
-# View(por) #'Paços de Ferreira' , 'Benfica'
+# View(por) #'PaÃ§os de Ferreira' , 'Benfica'
 
 hol<-dat %>% filter(Pais == 'Holanda') %>% 
   group_by(Equipo) %>%
@@ -1101,16 +1088,16 @@ ale<-dat %>% filter(Pais == 'Alemania') %>%
   arrange(desc(PTS))
 # median(ale$PTS)
 # intersect(local_al$Equipo,c(local_al15$Equipo,local_al16$Equipo,local_al17$Equipo,local_al18$Equipo))
-# View(ale) # 'Bayern Münich' , 'Augsburg'
+# View(ale) # 'Bayern MÃ¼nich' , 'Augsburg'
 
 
 # local_2 = dos equipos por pais de local
 #Dos equipos de local !=2020
-local_2<-dat %>% filter(Equipo %in% c('Boston River', 'Peñarol', 'Boca Juniors', 'Rosario Central',
-                             'Deportes Iquique', 'U. Católica', 'Sportivo Luqueño', 'Olimpia',
+local_2<-dat %>% filter(Equipo %in% c('Boston River', 'PeÃ±arol', 'Boca Juniors', 'Rosario Central',
+                             'Deportes Iquique', 'U. CatÃ³lica', 'Sportivo LuqueÃ±o', 'Olimpia',
                              'Ponte Preta', 'Palmeiras', 'Manchester City', 'West Bromwich Albion',
-                             'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'Paços de Ferreira' , 'Benfica',
-                             'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern Münich' , 'Augsburg',
+                             'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'PaÃ§os de Ferreira' , 'Benfica',
+                             'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern MÃ¼nich' , 'Augsburg',
                              'Waasland-Beveren' , 'Club Brugge') & Year != c(2020,2021) & Cond == 'local') %>%
   mutate(Cond = 'local') %>%
   group_by(Pais, Cond) %>%
@@ -1118,11 +1105,11 @@ local_2<-dat %>% filter(Equipo %in% c('Boston River', 'Peñarol', 'Boca Juniors',
 
 # visit_2 = dos equipos por pais de visitante
 #Dos equipode visitante !=2020
-visit_2<-dat %>% filter(Equipo %in% c('Boston River', 'Peñarol', 'Boca Juniors', 'Rosario Central',
-                             'Deportes Iquique', 'U. Católica', 'Sportivo Luqueño', 'Olimpia',
+visit_2<-dat %>% filter(Equipo %in% c('Boston River', 'PeÃ±arol', 'Boca Juniors', 'Rosario Central',
+                             'Deportes Iquique', 'U. CatÃ³lica', 'Sportivo LuqueÃ±o', 'Olimpia',
                              'Ponte Preta', 'Palmeiras', 'Manchester City', 'West Bromwich Albion',
-                             'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'Paços de Ferreira' , 'Benfica',
-                             'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern Münich' , 'Augsburg',
+                             'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'PaÃ§os de Ferreira' , 'Benfica',
+                             'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern MÃ¼nich' , 'Augsburg',
                              'Waasland-Beveren' , 'Club Brugge') & Year != c(2020,2021) & Cond == 'visit') %>%
   mutate(Cond = 'visit') %>%
   group_by(Pais, Cond) %>%
@@ -1131,11 +1118,11 @@ visit_2<-dat %>% filter(Equipo %in% c('Boston River', 'Peñarol', 'Boca Juniors',
 
 # loccal_2_2020 = dos equipos por pais de local
 #Dos equipos de local !=2020
-local_2_2020<-dat %>% filter(Equipo %in% c('Boston River', 'Peñarol', 'Boca Juniors', 'Rosario Central',
-                                      'Deportes Iquique', 'U. Católica', 'Sportivo Luqueño', 'Olimpia',
+local_2_2020<-dat %>% filter(Equipo %in% c('Boston River', 'PeÃ±arol', 'Boca Juniors', 'Rosario Central',
+                                      'Deportes Iquique', 'U. CatÃ³lica', 'Sportivo LuqueÃ±o', 'Olimpia',
                                       'Ponte Preta', 'Palmeiras', 'Manchester City', 'West Bromwich Albion',
-                                      'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'Paços de Ferreira' , 'Benfica',
-                                      'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern Münich' , 'Augsburg',
+                                      'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'PaÃ§os de Ferreira' , 'Benfica',
+                                      'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern MÃ¼nich' , 'Augsburg',
                                       'Waasland-Beveren' , 'Club Brugge') & Year %in% c(2020,2021) & Cond == 'local') %>%
   mutate(Cond = 'local') %>%
   group_by(Pais, Cond) %>%
@@ -1143,83 +1130,13 @@ local_2_2020<-dat %>% filter(Equipo %in% c('Boston River', 'Peñarol', 'Boca Juni
 
 # visit_2_2020 = dos equipos por pais de visitante
 # Dos equipos de visitante = 2020
-visit_2_2020<-dat %>% filter(Equipo %in% c('Boston River', 'Peñarol', 'Boca Juniors', 'Rosario Central',
-                                      'Deportes Iquique', 'U. Católica', 'Sportivo Luqueño', 'Olimpia',
+visit_2_2020<-dat %>% filter(Equipo %in% c('Boston River', 'PeÃ±arol', 'Boca Juniors', 'Rosario Central',
+                                      'Deportes Iquique', 'U. CatÃ³lica', 'Sportivo LuqueÃ±o', 'Olimpia',
                                       'Ponte Preta', 'Palmeiras', 'Manchester City', 'West Bromwich Albion',
-                                      'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'Paços de Ferreira' , 'Benfica',
-                                      'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern Münich' , 'Augsburg',
+                                      'Angers SCO', 'PSG', 'Genoa', 'Juventus', 'PaÃ§os de Ferreira' , 'Benfica',
+                                      'Willem II' , 'Ajax', 'Barcelona' , 'Levante' , 'Bayern MÃ¼nich' , 'Augsburg',
                                       'Waasland-Beveren' , 'Club Brugge') & Year %in% c(2020,2021) & Cond == 'visit') %>%
   mutate(Cond = 'visit') %>%
   group_by(Pais, Cond) %>%
   summarize(AVG =mean(G/J))
-
-
-
-
-
-
-tbl_mkr<-function(url){
-html<-read_html(url)
-node<-html_nodes(html, '#stats_squads_standard_for')
-gral<-html_table(node)
-gral<-as.data.frame(gral)
-names(gral)<-gral[1,]
-gral<-gral[-1,-c(2,6,7,8,11,12,13,16,17,18,19,20)]
-gral<-gral %>% mutate_at(2:7, as.numeric)
-names(gral)<-c('Equipo', 'Edad', 'Pos', 'PJ', 'Gls', 'Ass', 'TA','TR')
-
-node<-html_nodes(html, '#stats_squads_shooting_for')
-shoot<-html_table(node)
-shoot<-as.data.frame(shoot)
-names(shoot)<-shoot[1,]
-shoot<-shoot[-1, -c(2,3,4,7,8,9,10,11,12,13,14)]
-names(shoot)<-c('Equipo', 'Tiros', 'TAP')
-shoot<-shoot %>% mutate_at(2:3, as.numeric)
-
-
-tab<-left_join(gral, shoot, by='Equipo')
-tab<-tab %>% mutate(Eff = Gls / TAP )
-
-node<-html_nodes(html, 'table')
-now<-html_table(node[1])
-now<-as.data.frame(now)
-now<-now[,c(2,3,4,5,6,7,9,10)]
-
-tab<-now %>% 
-  left_join(tab, by = 'Equipo') %>% 
-  mutate(PJ.y = NULL) %>%
-  rename(PJ = PJ.x)
-
-return(tab)
-}
-
-t20<-tbl_mkr('https://fbref.com/es/comps/21/Estadisticas-de-Superliga-Argentina')
-t19<-tbl_mkr('https://fbref.com/es/comps/21/2436/Estadisticas-2018-2019-Superliga-Argentina')
-t18<-tbl_mkr('https://fbref.com/es/comps/21/1659/Estadisticas-2017-2018-Superliga-Argentina')
-t17<-tbl_mkr('https://fbref.com/es/comps/21/1554/Estadisticas-2016-2017-Primera-Division')
-
-tabmax<-bind_rows(t19,t18,t17) %>% filter(Equipo %in% t20$Equipo)
-
-
-url<-'https://fbref.com/es/comps/21/stats/Estadisticas-de-Superliga-Argentina#all_stats_standard'
-html<-read_html(url)
-node<-html_nodes(html, 'div_stats_standard')
-jug<-html_table(node)
-jug
-jug<-as.data.frame(jug)
-names(jug)<-jug[1,]
-jug<-jug[-1, -c(2,3,4,7,8,9,10,11,12,13,14)]
-names(shoot)<-c('Equipo', 'Tiros', 'TAP')
-shoot<-shoot %>% mutate_at(2:3, as.numeric)
-
-jug
-
-
-
-url<-'https://senado-ba.gov.ar/Senador.aspx?idP=2167'
-html<-read_html(url)
-node<-html_node(html, '.NombreSenador')
-nombre<-html_text(node)
-str_extract(string = nombre, pattern = '\\S*[A-z]*\\s[A-z]*[,]\\s[A-z]*[A-z]\\s[A-z]+')
-
 
