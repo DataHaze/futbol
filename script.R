@@ -822,7 +822,8 @@ visit_po14<-table_maker(url_visit_po14)
 
 
 
-# Table ---------------------------------------------------------
+# Final table, "dat", containing teams from 13 leagues, from 2015 to 2021.
+
 dat<-local_ar20 %>%
   mutate(Cond = 'local', Year = 2021, Pais = 'Argentina') %>%
   bind_rows(visit_ar20 %>% mutate(Cond = 'visit', Year = 2021, Pais = 'Argentina')) %>%
